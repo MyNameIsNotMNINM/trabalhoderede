@@ -23,8 +23,8 @@ def get_arguments():
                         help = "Initialize the SOFTP server.")
     parser.add_argument("-p", "--port", action = 'store',
                         help = "Starts server with the selected port.")
-    parser.add_argument("-st", "--setup", action = 'store_true',
-                        help = "Initialize the setup of the SOFTP file server.")
+    parser.add_argument("-d", "--directory", action = 'store',
+                        help = "choose file output directory")
     parser.add_argument("-add", "--add", type = str, nargs = 1,
                         metavar = ('bind_address:port'), default = None,
                         help = "add IPv4 and port to the SOFTP file server.")

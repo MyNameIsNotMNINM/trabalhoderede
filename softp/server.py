@@ -63,19 +63,21 @@ class Server:
         message = b""
 
         # Slow, remember to change it. Decoding every time is pretty stupid. 💩💩💩💩💩💩💩💩💩
-        while message.decode().find("\n\n") == -1 or time() >= timeLimit:
-            message += connection.sock.recv(100)
+        try:
+            while message.find(bytes("\n\n", 'utf-8')) == -1 or time() >= timeLimit:
+                message += connection.sock.recv(100)
+        except Exception as e:
+            print(message)
+        k = message.find(bytes("\n\n", 'utf-8'))
+        header = Header.deserialize(message[:k+2].decode())
 
-        header = Header.deserialize(message.decode())
-
-        k = message.decode().find("\n\n")
         content = b""
         if k+2 < len(message):
             content += message[k+2:]
         
         if "content-length" in header.attributes:
             while len(content) < int(header.attributes["content-length"]):
-                content += connection.sock.recv(1000)
+                content += connection.sock.recv(100)
         request = Request(connection, header, content)
         response = Response(connection)
         self.request_handlers[header.attributes["action"]](request, response)

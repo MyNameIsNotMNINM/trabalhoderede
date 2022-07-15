@@ -33,6 +33,10 @@ class File:
 
 def save_file(path: str, name: str, hash: str, content: bytes):
     fullpath = os.path.join(path, name)
+    try:
+        os.makedirs(path)
+    except:
+        pass
     with open(fullpath, 'wb') as fp:
         fp.write(content)
 

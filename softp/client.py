@@ -24,25 +24,21 @@ class ClientRequest:
         timeLimit = time() + MAX_RESPONSE_TIME
         message = b""
 
-        # Slow, remember to change it. Decoding every time is pretty stupid. 💩💩💩💩💩💩💩💩💩
-        while message.decode().find("\n\n") == -1 or time() >= timeLimit:
-            message += self.connection.sock.recv(100)
-        
-        #💩💩💩💩💩💩💩 so I remember to remove and refactor this shit before doing the last commit.
-        print(message.decode())
-        #💩💩💩💩💩💩💩
+        try:
+            while message.find(bytes("\n\n", 'utf-8')) == -1 or time() >= timeLimit:
+                message += self.connection.sock.recv(100)
+        except Exception as e:
+            print(message)
+        k = message.find(bytes("\n\n", 'utf-8'))
+        header = Header.deserialize(message[:k+2].decode())
 
-        header = Header.deserialize(message.decode())
-
-        k = message.decode().find("\n\n")
         content = b""
         if k+2 < len(message):
             content += message[k+2:]
-
-        if "content-length" in header.attributes:
-            while len(content) < header.attributes["content-length"]:
-                content += self.connection.sock.recv(100)
         
+        if "content-length" in header.attributes:
+            while len(content) < int(header.attributes["content-length"]):
+                content += self.connection.sock.recv(100)
         self.response_data = content
         self.response_header = header.attributes
         self.connection.sock.close()
