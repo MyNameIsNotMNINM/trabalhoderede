@@ -1,4 +1,7 @@
 # trabalhoderede
+
+Componentes da equipe: Rafael Pereira, Caroline Morais, Jeisiane Macedo, Bruno Junqueira
+
 para rodar o programa primeiro inicie um servidor core:
 
 `python3 core.py --port <porta do core>`
