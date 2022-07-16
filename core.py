@@ -1,9 +1,15 @@
-from ast import arg
-from unicodedata import name
-from common.arguments import get_arguments
 from softp.client import Client
 from softp.common import Address
 from softp.server import Request, Response, Server
+import argparse
+
+def get_arguments():
+    # create parser object
+    parser = argparse.ArgumentParser(description = "Manage the SOFTP Core Server")
+    parser.add_argument("-p", "--port", action = 'store',
+                    help = "Starts server with the selected port.") 
+    args = parser.parse_args()
+    return args
 
 server: Server= None
 file_servers: list= [{'address': '127.0.0.1', 'port': 4444},{'address': '127.0.0.1', 'port': 3030}, {'address': '127.0.0.1', 'port': 3031}]

@@ -18,20 +18,16 @@ def get_arguments():
     # create parser object
     parser = argparse.ArgumentParser(description = "Manage the SOFTP Core Server")
 
-    # defining arguments for parser object
-    parser.add_argument("-i", "--init", action = 'store_true',
-                        help = "Initialize the SOFTP server.")
-    parser.add_argument("-p", "--port", action = 'store',
-                        help = "Starts server with the selected port.")
+    parser.add_argument("action", nargs="?")
+    parser.add_argument("address", action = 'store',
+                        help = "Core server address")
     parser.add_argument("-d", "--directory", action = 'store',
                         help = "choose file output directory")
-    parser.add_argument("-add", "--add", type = str, nargs = 1,
-                        metavar = ('bind_address:port'), default = None,
-                        help = "add IPv4 and port to the SOFTP file server.")
-    parser.add_argument("-rm", "--remove", type = str, nargs = 1,
-                        metavar = ('bind_address'), default = None,
-                        help = "Remove IPv4 and port from the SOFTP file server.")    
-
-    # parse the arguments from standard input
+    parser.add_argument("-f", "--file", action = 'store',
+                        help = "file path")
+    parser.add_argument('-r', '--redundancy', action= 'store',
+                        help = 'N of redundancies')
+    parser.add_argument("-p", "--port", action = 'store',
+                        help = "Starts server with the selected port.") 
     args = parser.parse_args()
     return args

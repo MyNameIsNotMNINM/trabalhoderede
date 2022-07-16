@@ -1,8 +1,18 @@
 from urllib import response
-from common.arguments import get_arguments
 from common.file import delete_file, get_file, save_file
 from softp.common import Address
 from softp.server import Request, Response, Server
+import argparse
+
+def get_arguments():
+    # create parser object
+    parser = argparse.ArgumentParser(description = "Manage the SOFTP Core Server")
+    parser.add_argument("-p", "--port", action = 'store',
+                    help = "Starts server with the selected port.") 
+    parser.add_argument("-d", "--directory", action = 'store',
+                    help = "choose file output directory")
+    args = parser.parse_args()
+    return args
 
 
 server: Server= None
@@ -32,6 +42,7 @@ def on_download(req: Request, res: Response):
 def on_delete(req: Request, res: Response):
     delete_file(directory, req.header.attributes['name'])
     res.respond({'action': 'ok'}, b'')
+
 def setup_server_actions():
     server.setOnAction('upload', on_upload)
     server.setOnAction('download', on_download)
