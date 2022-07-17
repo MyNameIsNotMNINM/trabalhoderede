@@ -26,3 +26,16 @@ Fazer Download do arquivo:
 
 `python3 client.py download  <ip do core>:<porta do core>  --file <nome do arquivo>`
 
+
+# 
+
+# Funcionamento:
+
+O protocolo softp, funciona de maneira bem parecida com o HTTP apesar do que o nome sugere. como apresentado no video, há 3 programas, um "core" é um servidor que gerencia os arquivos e servidores de arquivos.
+
+A semelhança entre o HTTP e o SOFTP é em partes, o header, e o fato de que é stateless. Para cada request, deve haver uma resposta.
+
+O formato do pacote da camada de aplicação é:
+![packet example](image/softppacketexample.png "packet example")
+
+o core mantem uma lista de quais servidores de arquivos tem um determinado arquivo, com essa informação pode decidir apagar ou enviar determinado arquivo a outros servidores.
